@@ -8,29 +8,122 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-78VZWJ5B1W"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-78VZWJ5B1W');</script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7039091592734005" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;min-height:100vh}nav{background:#1e293b;border-bottom:1px solid #334155;padding:14px 24px;display:flex;align-items:center;gap:16px}nav a{color:#94a3b8;text-decoration:none;font-size:14px}nav a:hover{color:#f1f5f9}nav .brand{color:#38bdf8;font-weight:700;font-size:18px}.ad-banner{background:#1e293b;border-bottom:1px solid #334155;padding:8px;text-align:center}
-@keyframes shake{0%,100%{transform:translateY(0) rotate(0)}25%{transform:translateY(-12px) rotate(-10deg)}75%{transform:translateY(-8px) rotate(10deg)}}
-.rolling{animation:shake 0.6s ease-in-out}
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f172a;color:#f1f5f9;min-height:100vh}
+nav{background:#1e293b;border-bottom:1px solid #334155;padding:14px 24px;display:flex;align-items:center;gap:16px}
+nav a{color:#94a3b8;text-decoration:none;font-size:14px}nav a:hover{color:#f1f5f9}
+nav .brand{color:#38bdf8;font-weight:700;font-size:18px}
+.ad-banner{background:#1e293b;border-bottom:1px solid #334155;padding:8px;text-align:center}
+#app{max-width:600px;margin:40px auto;padding:0 20px}
+h1{font-size:28px;font-weight:700;text-align:center;margin-bottom:8px}
+.subtitle{text-align:center;color:#94a3b8;margin-bottom:28px}
+.card{background:#1e293b;border-radius:20px;padding:24px;border:1px solid #334155;margin-bottom:16px}
+.dice-types{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}
+.dt-btn{border-radius:10px;padding:10px 16px;font-size:15px;font-weight:700;cursor:pointer;border:1px solid #334155;background:#0f172a;color:#94a3b8;transition:all .15s}
+.dt-btn.active{background:#3b82f6;color:#fff;border-color:#3b82f6}
+.controls{display:flex;gap:20px;justify-content:center;align-items:flex-start;margin-bottom:20px;flex-wrap:wrap}
+.ctrl{text-align:center}
+.ctrl-label{font-size:13px;color:#94a3b8;margin-bottom:6px}
+.counter{display:flex;align-items:center;gap:10px}
+.ctr-btn{background:#334155;color:#f1f5f9;border:none;border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;font-weight:700;flex-shrink:0}
+.ctr-val{font-family:monospace;font-size:22px;font-weight:700;min-width:32px;text-align:center}
+#result-area{text-align:center;min-height:100px;margin-bottom:20px}
+.dice-grid{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+.die-face{background:#0f172a;border:2px solid #3b82f6;border-radius:14px;width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#f1f5f9}
+.die-face.d6{background:#1e40af;border-color:#3b82f6}
+#roll-meta{font-size:14px;color:#64748b;margin-bottom:4px}
+#roll-total{font-size:44px;font-weight:800;color:#3b82f6}
+#roll-range{font-size:13px;color:#475569;margin-top:4px}
+@keyframes shake{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-10px) rotate(-8deg)}70%{transform:translateY(-7px) rotate(8deg)}}
+.rolling-anim{animation:shake 0.55s ease-in-out}
+#roll-btn{width:100%;background:#3b82f6;color:#fff;border:none;border-radius:12px;padding:14px;font-size:17px;font-weight:700;cursor:pointer;transition:background .2s}
+#roll-btn:disabled{background:#334155;color:#64748b;cursor:not-allowed}
+.history-card{background:#1e293b;border-radius:16px;border:1px solid #334155;overflow:hidden;display:none}
+.history-header{padding:13px 18px;border-bottom:1px solid #334155;font-size:13px;color:#64748b;font-weight:600}
+.hist-row{padding:10px 18px;border-bottom:1px solid #0f172a;display:flex;justify-content:space-between;align-items:center;font-size:14px}
 </style>
 </head>
 <body>
 <nav><span class="brand">⚡ Tabutility</span><a href="https://tabutility.com">← All Tools</a></nav>
 <div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7039091592734005" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
-<div id="root"></div>
-<script type="text/babel">
-//<![CDATA[
-const { useState, useRef } = React;
+<div id="app">
+  <h1>Dice Roller</h1>
+  <p class="subtitle">D4 · D6 · D8 · D10 · D12 · D20 · D100 · Custom modifiers</p>
+  <div class="card">
+    <div class="dice-types" id="dice-types"></div>
+    <div class="controls">
+      <div class="ctrl">
+        <div class="ctrl-label">Number of dice</div>
+        <div class="counter">
+          <button class="ctr-btn" onclick="changeCount(-1)">−</button>
+          <span class="ctr-val" id="count-val">2</span>
+          <button class="ctr-btn" onclick="changeCount(1)">+</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-label">Modifier</div>
+        <div class="counter">
+          <button class="ctr-btn" onclick="changeMod(-1)">−</button>
+          <span class="ctr-val" id="mod-val" style="color:#22c55e;min-width:50px">+0</span>
+          <button class="ctr-btn" onclick="changeMod(1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div id="result-area">
+      <div style="color:#475569;font-size:18px;padding-top:16px">Press Roll to start</div>
+    </div>
+    <button id="roll-btn" onclick="doRoll()">Roll 2d6</button>
+  </div>
+  <div class="history-card" id="history-card">
+    <div class="history-header">ROLL HISTORY</div>
+    <div id="history-list"></div>
+  </div>
+</div>
+<script>
+var TYPES = [4,6,8,10,12,20,100];
+var selected = 6;
+var count = 2;
+var modifier = 0;
+var rolling = false;
+var history = [];
 
-const DICE_TYPES = [4,6,8,10,12,20,100];
-const DICE_EMOJI = {4:'🔺',6:'⬡',8:'💠',10:'🔷',12:'🔮',20:'⭐',100:'🎲'};
+var rollBtn = document.getElementById('roll-btn');
+var resultArea = document.getElementById('result-area');
+var histCard = document.getElementById('history-card');
+var histList = document.getElementById('history-list');
 
-function rollDie(sides) { return Math.floor(Math.random() * sides) + 1; }
+function renderTypes() {
+  var el = document.getElementById('dice-types');
+  el.innerHTML = '';
+  TYPES.forEach(function(d) {
+    var b = document.createElement('button');
+    b.className = 'dt-btn' + (d === selected ? ' active' : '');
+    b.textContent = 'D' + d;
+    b.onclick = function() { selected = d; renderTypes(); updateBtn(); };
+    el.appendChild(b);
+  });
+}
 
-function D6Face({ value }) {
-  const dots = {
+function changeCount(delta) {
+  count = Math.max(1, Math.min(20, count + delta));
+  document.getElementById('count-val').textContent = count;
+  updateBtn();
+}
+function changeMod(delta) {
+  modifier += delta;
+  var el = document.getElementById('mod-val');
+  el.textContent = (modifier >= 0 ? '+' : '') + modifier;
+  el.style.color = modifier > 0 ? '#22c55e' : modifier < 0 ? '#ef4444' : '#94a3b8';
+  updateBtn();
+}
+function updateBtn() {
+  var mod = modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : '';
+  rollBtn.textContent = 'Roll ' + count + 'd' + selected + mod;
+}
+
+function d6Svg(value) {
+  var DOT_POSITIONS = {
     1:[[50,50]],
     2:[[25,25],[75,75]],
     3:[[25,25],[50,50],[75,75]],
@@ -38,115 +131,72 @@ function D6Face({ value }) {
     5:[[25,25],[75,25],[50,50],[25,75],[75,75]],
     6:[[25,25],[75,25],[25,50],[75,50],[25,75],[75,75]]
   };
-  return (
-    <svg width="70" height="70" viewBox="0 0 100 100">
-      <rect x="5" y="5" width="90" height="90" rx="14" fill="#1e40af" stroke="#3b82f6" strokeWidth="3"/>
-      {(dots[value]||[]).map(([cx,cy],i) => <circle key={i} cx={cx} cy={cy} r="8" fill="#fff"/>)}
-    </svg>
-  );
+  var dots = DOT_POSITIONS[value] || [];
+  var circles = dots.map(function(p) {
+    return '<circle cx="'+p[0]+'" cy="'+p[1]+'" r="8" fill="#fff"/>';
+  }).join('');
+  return '<svg width="60" height="60" viewBox="0 0 100 100"><rect x="5" y="5" width="90" height="90" rx="14" fill="#1e40af" stroke="#3b82f6" stroke-width="3"/>' + circles + '</svg>';
 }
 
-export default function DiceRoller() {
-  const [selected, setSelected] = useState(6);
-  const [count, setCount] = useState(2);
-  const [results, setResults] = useState([]);
-  const [rolling, setRolling] = useState(false);
-  const [history, setHistory] = useState([]);
-  const [modifier, setModifier] = useState(0);
-  const diceRef = useRef(null);
+function doRoll() {
+  if (rolling) return;
+  rolling = true;
+  rollBtn.disabled = true;
+  rollBtn.textContent = 'Rolling…';
+  resultArea.innerHTML = '<div style="font-size:56px;animation:shake 0.55s ease-in-out">🎲</div><div style="color:#64748b;margin-top:8px;font-size:16px">Rolling…</div>';
 
-  const roll = () => {
-    if (rolling) return;
-    setRolling(true);
-    setTimeout(() => {
-      const rolls = Array.from({length: count}, () => rollDie(selected));
-      setResults(rolls);
-      const total = rolls.reduce((a,b) => a+b, 0) + modifier;
-      setHistory(h => [{dice:`${count}d${selected}`, rolls, total, mod: modifier, time: new Date().toLocaleTimeString()}, ...h.slice(0,14)]);
-      setRolling(false);
-    }, 650);
-  };
+  setTimeout(function() {
+    var rolls = [];
+    for (var i = 0; i < count; i++) {
+      rolls.push(Math.floor(Math.random() * selected) + 1);
+    }
+    var sum = rolls.reduce(function(a,b){ return a+b; }, 0);
+    var total = sum + modifier;
+    var modStr = modifier !== 0 ? (modifier > 0 ? ' + ' + modifier : ' − ' + Math.abs(modifier)) : '';
+    var rangeMin = count + modifier;
+    var rangeMax = count * selected + modifier;
 
-  const total = results.reduce((a,b)=>a+b,0) + modifier;
-  const max = count * selected + modifier;
-  const min = count + modifier;
+    var html = '<div class="dice-grid">';
+    rolls.forEach(function(r) {
+      if (selected === 6 && count <= 8) {
+        html += '<div class="die-face d6">' + d6Svg(r) + '</div>';
+      } else {
+        html += '<div class="die-face">' + r + '</div>';
+      }
+    });
+    html += '</div>';
+    html += '<div id="roll-meta">'+rolls.join(' + ') + modStr+'</div>';
+    html += '<div id="roll-total">= ' + total + '</div>';
+    html += '<div id="roll-range">Range: '+rangeMin+'–'+rangeMax+'</div>';
+    resultArea.innerHTML = html;
 
-  return (
-    <div style={{maxWidth:620,margin:'40px auto',padding:'0 20px'}}>
-      <h1 style={{textAlign:'center',fontSize:28,fontWeight:700,marginBottom:8}}>Dice Roller</h1>
-      <p style={{textAlign:'center',color:'#94a3b8',marginBottom:32}}>D4 · D6 · D8 · D10 · D12 · D20 · D100 · Custom modifiers</p>
+    var mod = modifier !== 0 ? (modifier > 0 ? '+' + modifier : modifier) : '';
+    history.unshift({ label: count+'d'+selected+mod, rolls: rolls, total: total, time: new Date().toLocaleTimeString() });
+    if (history.length > 15) history.pop();
+    renderHistory();
 
-      <div style={{background:'#1e293b',borderRadius:20,padding:'28px 24px',border:'1px solid #334155',marginBottom:20}}>
-        <div style={{display:'flex',gap:8,flexWrap:'wrap',justifyContent:'center',marginBottom:20}}>
-          {DICE_TYPES.map(d => (
-            <button key={d} onClick={() => { setSelected(d); setResults([]); }} style={{background:selected===d?'#3b82f6':'#0f172a',color:selected===d?'#fff':'#94a3b8',border:`1px solid ${selected===d?'#3b82f6':'#334155'}`,borderRadius:10,padding:'10px 16px',fontSize:15,fontWeight:700,cursor:'pointer'}}>D{d}</button>
-          ))}
-        </div>
-
-        <div style={{display:'flex',gap:16,justifyContent:'center',alignItems:'center',marginBottom:24,flexWrap:'wrap'}}>
-          <label style={{fontSize:14,color:'#94a3b8'}}>Number of dice
-            <div style={{display:'flex',alignItems:'center',gap:8,marginTop:4}}>
-              <button onClick={()=>setCount(c=>Math.max(1,c-1))} style={{background:'#334155',color:'#f1f5f9',border:'none',borderRadius:8,width:32,height:32,fontSize:18,cursor:'pointer'}}>−</button>
-              <span style={{fontFamily:'monospace',fontSize:22,fontWeight:700,minWidth:32,textAlign:'center'}}>{count}</span>
-              <button onClick={()=>setCount(c=>Math.min(20,c+1))} style={{background:'#334155',color:'#f1f5f9',border:'none',borderRadius:8,width:32,height:32,fontSize:18,cursor:'pointer'}}>+</button>
-            </div>
-          </label>
-          <label style={{fontSize:14,color:'#94a3b8'}}>Modifier
-            <div style={{display:'flex',alignItems:'center',gap:8,marginTop:4}}>
-              <button onClick={()=>setModifier(m=>m-1)} style={{background:'#334155',color:'#f1f5f9',border:'none',borderRadius:8,width:32,height:32,fontSize:18,cursor:'pointer'}}>−</button>
-              <span style={{fontFamily:'monospace',fontSize:22,fontWeight:700,minWidth:40,textAlign:'center',color:modifier>=0?'#22c55e':'#ef4444'}}>{modifier>=0?'+':''}{modifier}</span>
-              <button onClick={()=>setModifier(m=>m+1)} style={{background:'#334155',color:'#f1f5f9',border:'none',borderRadius:8,width:32,height:32,fontSize:18,cursor:'pointer'}}>+</button>
-            </div>
-          </label>
-        </div>
-
-        {results.length > 0 && !rolling && (
-          <div style={{textAlign:'center',marginBottom:20}}>
-            <div style={{display:'flex',gap:12,justifyContent:'center',flexWrap:'wrap',marginBottom:16}}>
-              {results.map((r,i) => (
-                selected === 6 && count <= 6
-                  ? <div key={i} style={{filter:`drop-shadow(0 4px 8px rgba(59,130,246,0.5))`}}><D6Face value={r}/></div>
-                  : <div key={i} style={{background:'#0f172a',border:'2px solid #3b82f6',borderRadius:14,width:64,height:64,display:'flex',alignItems:'center',justifyContent:'center',fontSize:26,fontWeight:800,color:'#f1f5f9'}}>{r}</div>
-              ))}
-            </div>
-            <div style={{fontSize:15,color:'#64748b',marginBottom:4}}>Rolls: {results.join(' + ')}{modifier!==0?(modifier>0?` + ${modifier}`:` − ${Math.abs(modifier)}`):''}</div>
-            <div style={{fontSize:40,fontWeight:800,color:'#3b82f6'}}>= {total}</div>
-            <div style={{fontSize:13,color:'#475569',marginTop:4}}>Range: {min}–{max}</div>
-          </div>
-        )}
-
-        {rolling && (
-          <div style={{textAlign:'center',marginBottom:20}}>
-            <div style={{fontSize:56,marginBottom:8}}>🎲</div>
-            <div style={{fontSize:18,color:'#64748b'}}>Rolling…</div>
-          </div>
-        )}
-
-        <div style={{textAlign:'center'}}>
-          <button onClick={roll} disabled={rolling} style={{background:rolling?'#334155':'#3b82f6',color:rolling?'#64748b':'#fff',border:'none',borderRadius:12,padding:'14px 48px',fontSize:18,fontWeight:700,cursor:rolling?'not-allowed':'pointer'}}>
-            {rolling ? 'Rolling…' : `Roll ${count}d${selected}${modifier!==0?(modifier>0?`+${modifier}`:modifier):''}` }
-          </button>
-        </div>
-      </div>
-
-      {history.length > 0 && (
-        <div style={{background:'#1e293b',borderRadius:16,padding:16,border:'1px solid #334155'}}>
-          <h2 style={{fontSize:15,fontWeight:600,marginBottom:12}}>Roll History</h2>
-          {history.map((h,i) => (
-            <div key={i} style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'8px 0',borderBottom:'1px solid #0f172a',fontSize:14}}>
-              <span style={{color:'#64748b'}}>{h.time}</span>
-              <span style={{color:'#94a3b8'}}>{h.dice}{h.mod!==0?(h.mod>0?`+${h.mod}`:h.mod):''}: [{h.rolls.join(', ')}]</span>
-              <span style={{fontWeight:700,color:'#3b82f6',fontSize:16}}>{h.total}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+    rolling = false;
+    rollBtn.disabled = false;
+    updateBtn();
+  }, 620);
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<DiceRoller />);
-//]]>
+function renderHistory() {
+  if (!history.length) { histCard.style.display = 'none'; return; }
+  histCard.style.display = 'block';
+  histList.innerHTML = '';
+  history.forEach(function(h) {
+    var row = document.createElement('div'); row.className = 'hist-row';
+    row.innerHTML =
+      '<span style="color:#64748b">'+h.time+'</span>'+
+      '<span style="color:#94a3b8">'+h.label+': ['+h.rolls.join(', ')+']</span>'+
+      '<span style="font-weight:700;color:#3b82f6;font-size:16px">'+h.total+'</span>';
+    histList.appendChild(row);
+  });
+}
+
+renderTypes();
+updateBtn();
 </script>
 </body>
 </html>
